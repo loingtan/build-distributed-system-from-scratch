@@ -1,0 +1,3 @@
+- Build the `append_entries` body with the mutex held, copying the entries (`append([]Entry{}, r.log[prev:]...)`), then call `n.Call` from a goroutine and take the mutex again for the reply. Sending `r.log[prev:]` itself would race with later appends.
+- `Math.max` / `Math.min` are Go's built-in `max` / `min`.
+- A struct for the request (`prevIndex`, `entries`) serves leader and follower alike: the leader marshals it, the follower decodes it.

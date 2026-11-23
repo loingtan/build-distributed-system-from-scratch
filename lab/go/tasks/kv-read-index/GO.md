@@ -1,0 +1,3 @@
+- Keep waiting reads as `[]*readReq` (pointers), so a round's acknowledgement can mark exactly the reads that were pending when it was sent.
+- The per-round acknowledgement counter can be a plain variable captured by a closure: every reply goroutine calls it only after re-taking the mutex.
+- Persist the no-op entry appended in `becomeLeader` before replicating it, like any other entry.

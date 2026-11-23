@@ -1,0 +1,2 @@
+- `node.now()` is `n.Elapsed()` (a `time.Duration`); keep `upSince` as a `map[string]time.Duration` and compute the weight as `min(1, float64(now-since)/float64(3*time.Second))`.
+- Mark `upSince` inside the same critical section that flips `healthy` back to true, so a request never sees a recovered backend without its ramp.

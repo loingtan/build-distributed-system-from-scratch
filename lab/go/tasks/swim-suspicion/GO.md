@@ -1,0 +1,3 @@
+- `node.disk.incarnation = …` becomes `n.Disk().Set("incarnation", inc)`, which returns only after an fsync. Read it in `n.OnStart` with `n.Disk().Get("incarnation", &prev)`, add one and `Set` it before the node sends anything.
+- `node.after(2500, fn)` is `n.After(suspectTimeout, func(ctx context.Context) {…})`. The callback runs in its own goroutine: take the mutex, then check the entry is still suspect at the same incarnation.
+- JavaScript handlers never interleave; Go handlers do. Apply each update (compare, replace, buffer, refute) while holding the mutex, so two rumours about the same node cannot both "win".

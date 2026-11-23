@@ -1,0 +1,3 @@
+- Handlers and timers run concurrently. Use one mutex for the queue state, take it in timer callbacks too, and reply before releasing it (the checker orders events by when the broker's replies leave).
+- `n.After(visibility, func(ctx context.Context) {…})` returns a `*quorumlab.Timer`; `Stop()` is `cancel()`. A timer can already be firing (waiting for the mutex) when an ack stops it, so the callback must check the job is still the one in flight before putting it back.
+- Put a timed-out job back at the front with `ready = append([]job{j}, ready...)`.

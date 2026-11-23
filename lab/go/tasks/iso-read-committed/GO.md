@@ -1,0 +1,3 @@
+- Handlers run concurrently. Guard the committed map and the transaction table with one `sync.Mutex`, and hold it for the whole of `commit` so no reader sees half a commit.
+- Values are arbitrary JSON: keep them as `json.RawMessage` and send them back unchanged. A nil `json.RawMessage` encodes as `null`, which is the answer for a key never written.
+- "A synchronous handler runs to completion" in the hints means "under the mutex" in Go.

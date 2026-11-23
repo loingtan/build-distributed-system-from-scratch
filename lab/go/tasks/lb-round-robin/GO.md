@@ -1,0 +1,3 @@
+- "Before the `await`" in Go means: pick the backend and bump `next` while holding the mutex, then unlock before `n.Call`. Handlers run in parallel, so an unguarded counter races.
+- Never hold the mutex across `n.Call`: every other request would wait for this backend's answer.
+- Relaying "unchanged": decode the reply into a `map[string]any`, drop its `msg_id`/`in_reply_to`, and pass it to `n.Reply`.

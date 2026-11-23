@@ -1,0 +1,3 @@
+- `node.disk.log` and `node.disk.segments` are the keys `"log"` and `"segments"`: `n.Disk().Set("segments", segs)` or one `n.Disk().Update` for both (a flush sets the new segment list and an empty log together). Nothing is durable until it returns; reply after it.
+- A JSON entry `[key, value]` with `null` for a tombstone needs a small type in Go: a struct with `Key string; Value *string` and `MarshalJSON`/`UnmarshalJSON` that use a two-element array. Use non-nil slices so empty lists are saved as `[]`, not `null`.
+- Sort with `slices.SortFunc(entries, func(a, b pair) int { return strings.Compare(a.Key, b.Key) })` and search with `slices.BinarySearchFunc`.

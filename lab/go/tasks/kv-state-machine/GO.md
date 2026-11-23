@@ -1,0 +1,3 @@
+- Values arrive as JSON: decode them into `any` (numbers become `float64`, unset is `nil`). Compare a cas `from` with the stored value with `reflect.DeepEqual`, which also treats `nil` as matching an unset key.
+- One `Entry` struct with `op` and `omitempty` fields covers put, get and cas; `apply` returns the reply as a `map[string]any`.
+- In `adoptTerm`, `clear(r.waiting)` without replying.

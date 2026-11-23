@@ -1,0 +1,3 @@
+- `node.disk.x = …` is `n.Disk().Set("x", …)`, or `n.Disk().Update` for several keys at once. Nothing is durable until it returns, so call it before the `n.Reply`/`n.Call` that depends on it: before the yes vote, before the first prepare, before sending a decision.
+- The JavaScript's top-level recovery code goes in `n.OnStart`: read each key back with `n.Disk().Get("key", &v)` (it reports false if the key was never written), rebuild the locks, abort started transactions, resend undecided acknowledgements from goroutines.
+- Holding the mutex across a disk write is fine (it is local); never hold it across `n.Call`.

@@ -1,0 +1,3 @@
+- `Promise.all(node.peers.map(...))` is a goroutine per peer plus a `sync.WaitGroup`; each goroutine retries `n.Call(ctx, peer, invalidate, 100ms)` until it gets an answer.
+- Bump the generation, delete the entry and delete the in-flight read in one critical section; the read's "store only if the generation is unchanged" check must hold the same lock.
+- When a read ends, delete `inflight[key]` only if it is still this flight: an invalidation may already have replaced it with a newer one.

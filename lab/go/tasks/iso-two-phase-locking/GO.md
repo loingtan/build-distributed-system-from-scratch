@@ -1,0 +1,3 @@
+- In JavaScript a waiting request is parked in a list and answered later. In Go, simply let the handler goroutine block: wait on a `sync.Cond` tied to your mutex (`cond.Wait()` releases the mutex while asleep), and `Broadcast` whenever a commit or abort releases locks.
+- After waking, check again whether the lock can be granted: another goroutine may have taken it first.
+- Run the deadlock check under the same mutex, when a request first starts to wait. Unlock before `n.Reply`, and never block while holding the mutex except inside `cond.Wait()`.

@@ -1,0 +1,4 @@
+- `n.Call` returns `quorumlab.ErrTimeout` where the browser's `node.rpc` returns `null`: a missing ack is `err != nil`.
+- For "send the `ping_req`s in parallel with `Promise.all`", start one goroutine per helper and collect the answers from a buffered channel (`make(chan bool, len(helpers))`). Pass the timer's `ctx` to each `n.Call`.
+- Handlers and the probe timer run concurrently: guard the view and the probe order with one `sync.Mutex`, and never hold it across `n.Call`.
+- `n.Every` never overlaps runs of the same timer: a probe that takes longer than 200ms delays the next one. Keep both timeouts inside the period.

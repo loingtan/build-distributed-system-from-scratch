@@ -1,0 +1,2 @@
+- The JS `Map` of waiting requests is a `map[int]quorumlab.Message`; answer it with `n.Reply` from `commitTo`, which runs with the mutex held, so commit, apply and reply happen in one step.
+- Reply handlers for `append_entries` run in goroutines: decide commits only after re-taking the mutex and checking you are still leader in the same term.

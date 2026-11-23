@@ -1,0 +1,2 @@
+- Handlers and timers run concurrently. Use one mutex for the queue state, take it in timer callbacks too, and reply before releasing it (the checker orders events by when the broker's replies leave).
+- Keep `map[string]*record` with a `state` field; the timer callback and `ack` share the pointer, and the callback checks `state` under the mutex before doing anything (Stop does not help if it is already running).

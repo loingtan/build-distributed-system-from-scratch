@@ -1,0 +1,4 @@
+- `hash` is ported bit for bit: `uint32` arithmetic wraps exactly like `Math.imul` and `>>> 0`, and it walks UTF-16 code units (`utf16.Encode([]rune(s))`) like `charCodeAt`, so Go and JavaScript nodes place keys identically. Do not change it to `int` or to byte-wise iteration.
+- `hash(key) % uint32(len(n.NodeIDs()))` indexes the node list; `n.NodeIDs()` is sorted and the same on every node.
+- `n.Call(ctx, owner, body, time.Second)` is `node.rpc`; on `quorumlab.ErrTimeout` just don't reply. Handlers run concurrently, so guard the store map with a mutex.
+- Keep values as `json.RawMessage` so whatever the client wrote comes back unchanged, and reply `"value": nil` (JSON `null`) for a missing key.

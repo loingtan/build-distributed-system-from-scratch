@@ -1,0 +1,3 @@
+- `log.length = index - 1` (truncation) is `r.log = r.log[:index-1]`.
+- Election timer rule (Raft Figure 2): reset it only on hearing from the current leader, granting a vote, or starting an election. With a generation counter on the timer, `adoptTerm` simply does not touch it unless this node was leader.
+- Copy `lastLogIndex`/`lastLogTerm` into the request while holding the mutex; the goroutine that sends it must not read `r.log`.

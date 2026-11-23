@@ -1,0 +1,3 @@
+- The JavaScript warnings about `<<` and `2 ** n` do not apply: in Go, build the id as an `int64` with shifts, e.g. `ms<<18 | node<<12 | seq`. Keep it below 2^53 so it survives JSON.
+- `n.Elapsed().Milliseconds()` is the time field (milliseconds since the test started).
+- Handlers run concurrently: take a mutex around reading and updating `lastMs` and `seq`.

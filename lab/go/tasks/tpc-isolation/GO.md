@@ -1,0 +1,3 @@
+- Handlers run concurrently, so two `prepare`s really can check the same balance at the same instant. The lock check, the balance check and taking the locks must all happen under one `sync.Mutex`.
+- The `Map`s in the hints are Go maps: `prepared map[string][]move`, `locks map[string]string` (account to txn).
+- Unlock in both `commit` and `abort`, as in the JavaScript.

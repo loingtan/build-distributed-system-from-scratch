@@ -1,0 +1,4 @@
+- `node.disk.snap` is the disk key `snap` (`{index, term, store, sessions}`), written in the same `n.Disk().Update` as the shortened `log`, so a crash never sees one without the other.
+- `JSON.parse(JSON.stringify(x))` is a deep copy; in Go round-trip through `encoding/json` (a small generic `clone`) so the snapshot shares no maps with the live store.
+- `log.splice(0, n)` is `r.log = append([]Entry{}, r.log[n:]...)`; the copy lets the old array be freed.
+- The 6,000-byte limit is measured on `disk.json`, so everything you `Set` counts.

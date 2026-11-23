@@ -1,0 +1,3 @@
+- A timestamp is a two-element JSON array `[counter, "n2"]`, which does not fit a struct directly: give a small type `MarshalJSON`/`UnmarshalJSON` methods, or use `[]any` and convert.
+- `Math.max` in the hints is Go's built-in `max`.
+- Start the anti-entropy timer with `n.Every` inside `n.OnStart`, and build the snapshot under the mutex but send it after releasing it.

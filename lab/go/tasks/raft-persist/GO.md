@@ -1,0 +1,3 @@
+- `node.disk` is not durable by assignment here. Read `term`, `votedFor` and `log` with `n.Disk().Get` in `n.OnStart` (it runs before any message, after every restart); write all three with one `n.Disk().Update` before any reply, vote or `append_entries` that depends on them.
+- Use the keys `term`, `votedFor` (null for nobody) and `log`. "Use the disk copy of the log directly" becomes: change `r.log`, then persist before sending.
+- The tests crash a node at the instant it sends: an `Update` after `n.Reply` is too late. `Update` fsyncs, so persist only when something changed (not on every heartbeat).

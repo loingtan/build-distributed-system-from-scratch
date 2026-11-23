@@ -1,0 +1,4 @@
+- `hash` is ported bit for bit: `uint32` arithmetic wraps exactly like `Math.imul` and `>>> 0`, and it walks UTF-16 code units (`utf16.Encode([]rune(s))`) like `charCodeAt`, so Go and JavaScript nodes place keys identically. Do not change it to `int` or to byte-wise iteration.
+- Handlers run concurrently, so "adopt a newer epoch" must be one critical section: compare, update the ring, mark not ready, all under one mutex. Never hold it across `n.Call`.
+- To hold requests until a collect finishes, keep a `chan struct{}` that you close and replace whenever the node becomes ready or changes epoch; a held request waits on it (with a deadline near the client's 1000ms), then re-checks ownership.
+- Decode `epoch` as `*int64` so a message without one is told apart from epoch 0. Versions like `epoch*1000000 + seq` fit in an `int64` and survive JSON.

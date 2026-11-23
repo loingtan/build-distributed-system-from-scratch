@@ -1,0 +1,3 @@
+- Handlers run concurrently: guard `state`, `failures` and `openedAt` with a `sync.Mutex`, and never hold it across `n.Call`.
+- Decide "may I call?" and "am I the probe?" under the same lock (`allow` returns both); otherwise two requests can each become the probe.
+- `node.now()` is `n.Elapsed()`; compare durations, e.g. `now-openedAt >= time.Second`.

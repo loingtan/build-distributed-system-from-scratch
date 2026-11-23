@@ -1,0 +1,3 @@
+- The brief's `sign(text)` is `sign(n.ID(), text)` in Go; `verify(signer, text, sig)` is the same.
+- `value` and `cert` must be JSON `null` until you decide: keep `decided` as a `*string` and send `nil`.
+- Hold the mutex while counting votes and deciding, so two handlers cannot both decide (or decide different values).

@@ -1,0 +1,3 @@
+- The brief says a handler runs to completion before the next one starts. In Go handlers run concurrently: take one `sync.Mutex` for the whole of `enqueue` and `dequeue`, or two consumers can be handed the same job.
+- Reply before you release the mutex. The checker orders jobs by when the broker's replies leave, so two enqueues that append in one order and reply in the other look like a FIFO violation.
+- A slice is the queue: `queue = append(queue, j)`, then `queue[0]` and `queue = queue[1:]`. Reply `"job": nil` for JSON `null`, and keep `payload` as `json.RawMessage`.

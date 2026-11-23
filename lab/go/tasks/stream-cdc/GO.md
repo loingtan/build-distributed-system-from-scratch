@@ -1,0 +1,4 @@
+- The hint about code "without an `await` in between" is JavaScript-only. In Go nothing is durable until `n.Disk().Update` returns. Write `offset`, `rows` and `counts` in **one** `Update` so that a crash keeps all of them or none.
+- Write the disk first, then change the in-memory view, all under the mutex the `view` handler takes. Otherwise a reader can see progress that a crash then takes back.
+- `n.Every` never runs its function twice at once, so in Go polls do not overlap by themselves. Still skip any record whose offset is not the next one you need.
+- Read the saved state back in `n.OnStart` before starting the poll timer.

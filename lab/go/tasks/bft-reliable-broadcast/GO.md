@@ -1,0 +1,3 @@
+- Handlers run concurrently. Keep the echo/ready tables behind one `sync.Mutex` and do the count, the "already sent?" check and the send in one critical section, or two goroutines can both send a ready.
+- `msg.Src` is the sender of a `propose`; the network sets it, so it cannot be faked.
+- Decode `value` as `any` and check it is a string: a traitor's message may not match your struct.

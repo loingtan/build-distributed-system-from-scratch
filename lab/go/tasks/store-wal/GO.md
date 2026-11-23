@@ -1,0 +1,3 @@
+- `node.disk.log` is the key `"log"`: `n.Disk().Set("log", entries)` writes the whole slice and returns once it is fsynced. Nothing is durable until it returns, so reply after it, never before.
+- `node.disk.log ??= []` becomes, in `n.OnStart`: `ok, _ := n.Disk().Get("log", &entries)`, then `Set("log", []entry{})` only if `!ok`. Start from a non-nil slice: a nil slice is saved as `null`, and the checker needs an array.
+- Take one `sync.Mutex` around append-to-disk and apply-to-map, so two writes cannot interleave.

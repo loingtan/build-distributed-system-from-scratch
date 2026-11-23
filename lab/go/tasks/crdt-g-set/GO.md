@@ -1,0 +1,3 @@
+- Keep the set as a `map[string]bool` and send it as a `[]string`; the JavaScript advice about `Set` and `[...elements]` does not apply.
+- Start the anti-entropy timer in `n.OnStart` with `n.Every(100*time.Millisecond, ...)`, and pass its `ctx` to `n.Send`.
+- Handlers and timers run concurrently. Copy or marshal the state while holding the mutex (e.g. `json.Marshal` into a `json.RawMessage`), then send after unlocking.

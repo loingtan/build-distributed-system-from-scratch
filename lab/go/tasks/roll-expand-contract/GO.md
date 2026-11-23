@@ -1,0 +1,3 @@
+- `node.disk.version ?? 1` is `n.Disk().Get("version", &version)` inside `n.OnStart`. Records live under the disk key `"users"` (the checker reads it): `n.Disk().Set("users", users)` before each reply.
+- Keep each record a `map[string]any`: version 1 must leave `first` and `last` untouched when it sets `name`, and `delete(rec, "name")` drops the old field.
+- A finalized flag must survive restarts: write it to disk, and use `n.Disk().Update` to store the rewritten records and the flag in one atomic write.

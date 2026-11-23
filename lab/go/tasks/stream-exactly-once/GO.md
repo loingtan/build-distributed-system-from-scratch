@@ -1,0 +1,3 @@
+- `node.disk.checkpoint = { offset, balances }` becomes `n.Disk().Set("checkpoint", cp)` with a struct holding both. A single `Set` (or one `Update`) is atomic and fsynced. Two separate `Set` calls are not.
+- Do the `Set` only after every emit it covers has returned `emit_ok`, and copy the balances map before changing it so memory never runs ahead of the disk.
+- Build ids from the offset (`fmt.Sprintf("payment-%d", p.Offset)`), never from `n.Rand()` or a counter kept in memory.

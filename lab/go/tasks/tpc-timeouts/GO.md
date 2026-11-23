@@ -1,0 +1,3 @@
+- `node.rpc(…, { timeout: 300 })` is `n.Call(ctx, dest, body, 300*time.Millisecond)`; a missing reply is an error (`quorumlab.ErrTimeout`), which the coordinator counts as a no.
+- Resend the outcome from its own goroutine (`go tell(…)`), looping on `n.Call` until it returns without error, so the client can be answered at once.
+- No `n.After` timer on the participant side: a participant that voted yes waits.

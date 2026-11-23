@@ -1,0 +1,3 @@
+- `node.disk.snapshot = …; node.disk.log = []` is one `n.Disk().Update(func(tx *quorumlab.Tx) error { … })` that sets both keys: the two changes reach disk together or not at all. (The brief's "a handler runs to completion unless it awaits" does not apply in Go; `Update` is what makes it atomic.)
+- Every `Set`/`Update` rewrites `disk.json`, but the checker compares contents: what counts as a rewrite is any change to a key other than `"log"` growing at its tail. So write `"snapshot"` only at checkpoints.
+- At startup, write to the disk only if it is empty (first start). Rewriting the snapshot during recovery can be counted against the rewrite budget.

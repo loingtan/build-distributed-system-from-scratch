@@ -1,0 +1,4 @@
+- `hash` is ported bit for bit: `uint32` arithmetic wraps exactly like `Math.imul` and `>>> 0`, and it walks UTF-16 code units (`utf16.Encode([]rune(s))`) like `charCodeAt`, so Go and JavaScript nodes place keys identically. Do not change it to `int` or to byte-wise iteration.
+- Start the retry timer in `n.OnStart` with `n.Every(100*time.Millisecond, handoff)`. Don't hold the mutex across `n.Call`: collect the batches under the lock, send them from goroutines, and take the lock again to delete the confirmed keys.
+- With values as `json.RawMessage`, "still the value I sent" is `bytes.Equal(store[key], sent)`.
+- `n.Call` returns `quorumlab.ErrTimeout` where `node.rpc` resolves to `null`; a retry loop is `for attempt := 0; attempt < 8; attempt++ { … 100*time.Millisecond … }`.

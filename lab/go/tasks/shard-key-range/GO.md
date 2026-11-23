@@ -1,0 +1,3 @@
+- The range table is `[][2]string` (`[from, owner]`), which marshals to exactly the `[["", "n1"], ...]` the brief shows. `sort.Search` finds the range holding a key; `slices.Insert` adds a boundary.
+- Handlers run concurrently: decide the split, add the boundary and remove the moved keys under one mutex, then release it before `n.Call(ctx, owner, take…)` and the `split` sends. Two puts racing into the same range then cannot both split it.
+- Keep values as `json.RawMessage` so whatever the client wrote comes back unchanged. Use non-nil slices so an empty scan replies `"entries": []`.

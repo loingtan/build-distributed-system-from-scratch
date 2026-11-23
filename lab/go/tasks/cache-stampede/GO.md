@@ -1,0 +1,3 @@
+- There are no promises: keep `inflight map[string]*flight`, where a flight has a `done chan struct{}` and the result. The first miss creates it; later misses unlock and wait on `<-f.done`, then read the result.
+- Check the cache and `inflight`, and register a new flight, in one critical section, or two misses can both start a read.
+- When the read ends (success, error or `ErrTimeout` after 300ms), set the result, delete the key from `inflight` under the lock, then `close(f.done)` to wake every waiter.

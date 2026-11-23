@@ -1,0 +1,3 @@
+- "A `Map` from `txn` to its moves" is a `map[string][]move` guarded by a `sync.Mutex`; handlers run concurrently, so check-and-record in `prepare` must happen under one lock.
+- `node.rpc(node.id, …)` is `n.Call(ctx, n.ID(), body, time.Second)`: a node can call itself. `node.rpc` returning `null` is `n.Call` returning an error (`quorumlab.ErrTimeout`); count it as a no vote.
+- `Promise.all` over the participants is one goroutine per `n.Call` and a `sync.WaitGroup`. Never hold the mutex across `n.Call`.

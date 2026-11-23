@@ -1,0 +1,3 @@
+- `hash` is ported bit for bit: `uint32` arithmetic wraps exactly like `Math.imul` and `>>> 0`, and it walks UTF-16 code units (`utf16.Encode([]rune(s))`) like `charCodeAt`, so Go and JavaScript nodes place keys identically. Do not change it to `int` or to byte-wise iteration.
+- Keep the ring as a `[]point{pos uint32; id string}`, sorted with `sort.Slice` (ties by id), and find the owner with `sort.Search(len(ring), func(i int) bool { return ring[i].pos >= h })`, wrapping to 0 when it returns `len(ring)`.
+- `set_members` and `lookup` can run at the same time as `put`/`get`: read and replace the ring under the same mutex.

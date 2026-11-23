@@ -1,0 +1,3 @@
+- `node.disk.token += 1` becomes `n.Disk().Set("token", token+1)` *before* the reply; only then update the in-memory copy.
+- Load the saved values in `n.OnStart(...)`, which runs again after every restart, before the node answers any message.
+- For n2, save the list (and the highest token, when it grows) with `Set` or one `Disk().Update` before answering.

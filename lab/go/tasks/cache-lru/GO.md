@@ -1,0 +1,2 @@
+- Go maps have no order, so the JavaScript `Map` trick does not apply. Use `container/list` (least recently used at the front) plus a `map[string]*list.Element`: `MoveToBack` on a hit, `Front()` to evict.
+- Lookup, store and `stats` all touch the list: take the mutex for each, never across `n.Call`.

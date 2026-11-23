@@ -1,0 +1,2 @@
+- Handlers run concurrently. Hold one mutex across the tick and the `n.Send` / `n.Reply` that carry the clock, and copy the map before sending it.
+- Pass the handler's `ctx` to `n.Send`: the checker uses it to see that the note and the reply belong to one event.

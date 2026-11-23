@@ -1,0 +1,3 @@
+- The primary is `n.NodeIDs()[0]` (`"n1"`); node ids are sorted.
+- `phase.value()` checks `view` and `seq` and that `value` is a string; use it for all three message types.
+- Accepting the pre_prepare, counting prepares and sending commit must happen under one mutex, or a replica can commit twice or for two values.

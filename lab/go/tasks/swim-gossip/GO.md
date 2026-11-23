@@ -1,0 +1,3 @@
+- Decode `updates` from any message with one struct (`Updates []update \`json:"updates"\``) and `json.Unmarshal(msg.Body, &b)`; replies from `n.Call` carry them in `reply.Body` too.
+- Taking entries from the buffer changes their send counts, so do it under the mutex, but build the outgoing body before calling `n.Call`: never hold the lock across the call.
+- `3 * Math.ceil(Math.log2(N + 1))` is `3 * int(math.Ceil(math.Log2(float64(N+1))))`.

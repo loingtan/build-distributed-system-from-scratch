@@ -1,0 +1,3 @@
+- `node.rpc(…, { timeout: 1000 })` is `n.Call(ctx, "n2", body, time.Second)`; check `res.Type()` for `read_ok`, `write_ok` or `rejected`.
+- Lock-server and storage handlers run concurrently: hold one mutex for the whole check-and-update (lease check and grant; token check and write), never across `n.Call`.
+- Decode the token as `*int` so a request without one can be told apart from token 0.

@@ -1,0 +1,3 @@
+- A crash is a `SIGKILL`: the goroutines of a dead worker are gone, and its restarted process runs `OnStart` again with no memory of its task.
+- Keep the "busy" flag that drives heartbeats in an `atomic.Bool` (or under the mutex): the heartbeat timer and the worker loop run in different goroutines.
+- Use `time.Now()` / `time.Since` for "last heard from"; no node's clock is compared with another's.

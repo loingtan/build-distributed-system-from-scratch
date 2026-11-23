@@ -1,0 +1,4 @@
+- `node.disk.version ?? 1` is `version := 1; n.Disk().Get("version", &version)` inside `n.OnStart` (the disk opens once the node starts). Register the version's handlers there: `n.Handle` again for a type replaces the earlier handler, like `node.on`.
+- `node.disk.users` is `n.Disk().Set("users", users)`; it is durable only once that returns, so save before replying. Keep records as `map[string]any` so a field one version doesn't know survives the other's update.
+- A missing `"by"` decodes to `nil` in an `any` field and is sent back as JSON `null`: that is "unknown".
+- Handlers run concurrently: guard `users` with a mutex, not held across `n.Call`.

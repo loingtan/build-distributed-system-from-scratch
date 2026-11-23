@@ -1,0 +1,4 @@
+- `node.disk.x = …` is durable at once in the browser; here nothing is durable until `n.Disk().Set` or `Update` returns. Write the changed state (one `Update` setting `jobs`, `ready` and `dead`) before every reply, and in the timer callback when a job goes back to the queue or to the dead letters.
+- `node.disk.jobs ??= {}` becomes reading each key with `n.Disk().Get` in `n.OnStart`; a missing key leaves your empty default. Struct fields must be exported (with `json` tags) to be stored.
+- Restart the timers for in-flight jobs in `n.OnStart`. Store deadlines as `n.Elapsed().Milliseconds() + 500`: `Elapsed` counts from the test start, so it is still meaningful after a restart.
+- Handlers and timers run concurrently. Use one mutex for the queue state, take it in timer callbacks too, and reply before releasing it (the checker orders events by when the broker's replies leave).

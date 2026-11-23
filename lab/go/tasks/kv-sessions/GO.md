@@ -1,0 +1,3 @@
+- Add `ClientID string` (`json:"client_id"`) and `Seq int` to the request struct and to `Entry`, so `apply` sees them.
+- The session table is a `map[string]session` next to the store, changed only in `apply` (with the mutex held) and rebuilt by re-applying the log after a restart.
+- A saved reply map is safe to hand to `n.Reply` again: the library adds `in_reply_to` to a copy, never to your map.

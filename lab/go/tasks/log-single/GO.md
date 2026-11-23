@@ -1,0 +1,3 @@
+- Handlers run concurrently: take one `sync.Mutex` around appending to a key's slice and reading its length, or two sends can get the same offset.
+- `Math.max(old, new)` is Go's built-in `max(old, new)`.
+- Reply with an empty slice (`[][2]any{}`), not a nil one, for a key with nothing to return: nil marshals as `null`.

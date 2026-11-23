@@ -1,0 +1,3 @@
+- `Math.max` in the hints is the built-in `max` in Go.
+- Compare node ids as strings (`x.Node > y.Node`); any total order works as long as every replica uses the same one.
+- Take the mutex around the whole of a write (bump the clock, store the entry) and the whole of a merge, so the clock and the registers stay consistent.

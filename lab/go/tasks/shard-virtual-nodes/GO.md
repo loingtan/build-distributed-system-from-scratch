@@ -1,0 +1,3 @@
+- `hash` is ported bit for bit: `uint32` arithmetic wraps exactly like `Math.imul` and `>>> 0`, and it walks UTF-16 code units (`utf16.Encode([]rune(s))`) like `charCodeAt`, so Go and JavaScript nodes place keys identically. Do not change it to `int` or to byte-wise iteration.
+- The point names are `id + "#" + strconv.Itoa(i)`, the same strings the JavaScript version hashes.
+- `sort.Search` is the binary search the hints ask for.

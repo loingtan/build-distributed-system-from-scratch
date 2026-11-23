@@ -1,0 +1,3 @@
+- `node.disk.version ?? 1` is `n.Disk().Get("version", &version)` inside `n.OnStart`; `node.disk.flags[...] = …` is `n.Disk().Set("flags", flags)`, durable only once it returns. Save before replying `set_flag_ok`, and save an automatic switch-off too.
+- Pass the get handler's `ctx` to `n.Call(ctx, "cache", …)`: the checker matches cache reads to the get that caused them.
+- Handlers run concurrently: guard the flags and the last-20 window with one mutex, and look the flag up on every get, not once at startup.

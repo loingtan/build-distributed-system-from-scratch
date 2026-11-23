@@ -1,0 +1,2 @@
+- The starter's `hash` returns a `uint32`; Go's `uint32` multiplication wraps exactly like `Math.imul(...) >>> 0`, so no tricks are needed.
+- The pick needs no shared state beyond the pool: copy `backends` under the mutex, then score it without the lock.

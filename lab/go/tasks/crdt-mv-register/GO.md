@@ -1,0 +1,3 @@
+- A version vector fits in a `map[string]int`; a missing entry reads as 0, which is exactly what the comparison needs.
+- Go maps cannot be compared with `==`. Write a small `dominates(x, y)` and treat two vectors as the same version when neither dominates and every entry matches.
+- Decode the merge body into `map[string][]version` with `Value any` so any JSON value round-trips.

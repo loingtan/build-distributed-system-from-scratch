@@ -1,0 +1,3 @@
+- `inFlight` is a `map[string]int` shared by all handler goroutines: pick and `inFlight[b]++` in one critical section, so the next request in a burst sees the count.
+- Unlock before `n.Call`; after it returns, lock again just to do `inFlight[b]--`, whether the call succeeded or timed out.
+- Ties at random: `best[int(n.Rand()*float64(len(best)))]`.

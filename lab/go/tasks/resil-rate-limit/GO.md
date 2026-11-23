@@ -1,0 +1,2 @@
+- `node.now()` is `n.Elapsed()`. Refill with `(now-refilledAt).Seconds() * 20`, keep `tokens` as a `float64`, and cap it with `math.Min(10, …)`.
+- Requests arrive concurrently: refill, check and take a token under one `sync.Mutex`, or two requests can take the same last token.

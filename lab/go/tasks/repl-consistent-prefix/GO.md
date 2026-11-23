@@ -1,0 +1,3 @@
+- A `map[string]int` decodes from both a vector token and `null` (a nil map, which every node covers).
+- Copy the `applied` map (`maps.Clone`) before you send it or reply with it; the message is encoded after you release the mutex.
+- Wait for the token by polling with `time.Sleep` outside the mutex, as in RP-5.

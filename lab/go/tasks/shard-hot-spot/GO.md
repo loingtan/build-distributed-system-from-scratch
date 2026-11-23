@@ -1,0 +1,3 @@
+- `hash` is ported bit for bit (`uint32`, UTF-16 code units), so part `i` of a key lands on node `(hash(key) + i) % N` exactly as in JavaScript.
+- Start the window reset with `n.Every(200*time.Millisecond, …)` inside `n.OnStart`.
+- Mark the key hot under the mutex before sending the `hot` messages, and never hold the mutex across `n.Call`; a fan-out read can call the other nodes in parallel goroutines with a `sync.WaitGroup`.

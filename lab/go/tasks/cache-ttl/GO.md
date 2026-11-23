@@ -1,0 +1,2 @@
+- `node.now()` is `n.Elapsed()`: store `at time.Duration` in each entry and compare `now-at >= time.Second`.
+- Take `sentAt := n.Elapsed()` just before `n.Call`, and pass it to `store` once the reply is in.

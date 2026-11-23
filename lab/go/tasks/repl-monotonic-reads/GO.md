@@ -1,0 +1,3 @@
+- The hint's `node.after(5, …)` loop becomes a plain loop with `time.Sleep(5 * time.Millisecond)`, checking `applied` under the mutex each time. Never sleep while holding the mutex: replication could not get in to catch you up.
+- Decode the token as `*float64` (or `json.RawMessage`): it is `null` for a new client.
+- Handlers run concurrently, so take the next `seq` and apply the write in one critical section on the primary.

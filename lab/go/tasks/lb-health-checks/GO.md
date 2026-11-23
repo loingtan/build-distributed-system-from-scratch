@@ -1,0 +1,3 @@
+- Start the probe loop in `n.OnStart` with `n.Every(200*time.Millisecond, ...)`, and probe each backend in its own goroutine (`go probe(ctx, id)`) so one dead backend's 150ms timeout does not delay the others.
+- `healthy`, `failures` and `inFlight` are shared by probes and requests: update them under the mutex, but never hold it across `n.Call`.
+- An answer is good only if `err == nil && res.Type() == "get_ok"`; `quorumlab.ErrTimeout` and `{"type":"error"}` both count as failures.

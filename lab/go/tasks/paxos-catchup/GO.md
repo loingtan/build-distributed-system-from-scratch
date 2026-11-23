@@ -1,0 +1,3 @@
+- `node.disk` is not durable by assignment here. Read `promised` and `accepted` (a map from slot to `{ ballot, value }`) with `n.Disk().Get` in `n.OnStart`, and write them with `n.Disk().Update` before the reply that depends on them.
+- `Update` fsyncs and you hold the mutex while it runs, so skip writes that change nothing (a retried `accept` the acceptor already holds). A node stalled behind dozens of fsyncs answers probes late.
+- Handlers run concurrently: take the mutex for the whole of `learn`, so slots are appended to the log in order and each waiting client is answered once.

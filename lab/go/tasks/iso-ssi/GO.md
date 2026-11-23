@@ -1,0 +1,2 @@
+- The commit check (first committer wins, the rw edges, the pivot test) and publishing the new versions must happen under one `sync.Mutex`; otherwise two goroutines can both pass the check and commit.
+- Keep the read set as a `map[string]bool` per transaction; the committed record can keep the same map, since the transaction no longer changes it.

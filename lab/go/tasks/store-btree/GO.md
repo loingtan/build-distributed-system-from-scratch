@@ -1,0 +1,3 @@
+- The tree is three disk keys, `"pages"`, `"root"` and `"next"`. Write them together in one `n.Disk().Update` before the reply: that single atomic update is the "switch the root" step of copy-on-write. Several separate `Set` calls could be cut short by a crash.
+- A leaf must have a `values` array even when it is empty; the reference solution gives `page` a `MarshalJSON` that writes `values` for leaves and `children` for inner pages.
+- `slices.Insert`, `slices.Delete` and `slices.Clone` cover the page edits; clone before changing a page that copy-on-write must leave alone. Hold one mutex for the whole request.

@@ -1,0 +1,2 @@
+- `node.rpc(..., { timeout: 200 })` is `n.Call(ctx, "upstream", body, 200*time.Millisecond)`; "no answer in time" is `err == quorumlab.ErrTimeout` (any error means no reply to use), not a `null` result.
+- Pass the timeout explicitly: there is no library default to fall back on.

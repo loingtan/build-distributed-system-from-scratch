@@ -1,0 +1,3 @@
+- `node.random()` is `n.Rand()`. The jittered wait before retry k is `time.Duration(n.Rand() * float64(100*time.Millisecond << (k-1)))`.
+- Instead of `await sleep(ms)`, just wait in the handler (`time.Sleep` or a `time.NewTimer` with `select` on `ctx.Done()`): each handler has its own goroutine, so this blocks only that request.
+- A lost call is `err != nil` from `n.Call`; a `busy` refusal is a reply whose `code` is `"busy"`. Both are transient.

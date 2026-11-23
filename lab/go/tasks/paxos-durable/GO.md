@@ -1,0 +1,3 @@
+- `node.disk` is not durable by assignment here. Read `promised` and `accepted` with `n.Disk().Get` in `n.OnStart` (it runs before any message, after every restart), and write both with one `n.Disk().Update` before the `prepare` or `accept` reply that depends on them.
+- The *Promise forgotten* test crashes a node the instant its reply is on the wire: an `Update` after `n.Reply` is too late.
+- `Update` fsyncs, so write only when something changed (a higher promise, a new accepted value), not on every message.

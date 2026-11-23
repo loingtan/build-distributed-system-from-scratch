@@ -1,0 +1,3 @@
+- `node.now()` is `n.Elapsed()`: this node's clock, including its skew. Note it just before `n.Call(ctx, "lock", …)`.
+- Do not compare `expires_at` with `n.Elapsed()` or `time.Now()`: it is on the lock's clock.
+- `time.Sleep` inside the handler is fine for the retry pause; a worker gets one job at a time, so the lease state needs no mutex.

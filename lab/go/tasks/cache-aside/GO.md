@@ -1,0 +1,2 @@
+- "A `Map`" in Go is a `map[string]any` guarded by a `sync.Mutex`: gets run in parallel goroutines.
+- Look up under the lock, unlock, then `n.Call("db", ...)`; lock again only to store. Never hold the mutex across the call.

@@ -1,0 +1,3 @@
+- `node.kv.read/write/cas` are `n.KV().Read(ctx, key, &v)` (reports `false` for a missing key), `Write(ctx, key, v)` and `CAS(ctx, key, from, to)`.
+- JavaScript's `null` as `from` is Go's `nil`: `CAS(ctx, "next/k1", nil, 1)` succeeds only if the key does not exist yet.
+- Never hold a mutex across a `KV()` call; it is a network round trip. A local cache of written entries needs its own short lock.

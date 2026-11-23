@@ -1,0 +1,2 @@
+- Handlers run concurrently. Hold one mutex across the tick and the `n.Send` / `n.Reply` that carry the stamp, or two handlers can report their stamps out of order.
+- `Math.max(a, b)` is `max(a, b)` in Go 1.21+.

@@ -1,0 +1,3 @@
+- Decode only the `color` field out of the record and keep the whole value as `json.RawMessage`, so `get` returns exactly what was put.
+- Assign the version under the mutex; send the index updates (`n.Send`) after releasing it. The version, not the order of goroutines or messages, decides which update wins.
+- Reply `"keys": []` rather than `null` when no record has the color.

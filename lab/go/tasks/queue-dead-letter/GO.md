@@ -1,0 +1,2 @@
+- Handlers and timers run concurrently. Use one mutex for the queue state, take it in timer callbacks too, and reply before releasing it (the checker orders events by when the broker's replies leave).
+- Initialise the dead list as `dead := []job{}` so `dead_letters` replies `"jobs": []`, not `null`, when nothing has died.

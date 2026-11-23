@@ -1,0 +1,4 @@
+- Start the worker loop in `n.OnStart` as a goroutine (`go func() { for { time.Sleep(poll); ... } }()`); `OnStart` runs again after a restart, so a restarted worker starts asking for work by itself.
+- Handlers run concurrently: guard the coordinator's job and task records with one `sync.Mutex`, and never hold it while calling `n.Call`.
+- Encode an empty file as `[]string{}`, not a nil slice: fs wants `data` to be an array, and `nil` becomes JSON `null`.
+- `runMap` and `runReduce` return errors; a worker that gets one should drop the task (not report it done) and ask for work again.

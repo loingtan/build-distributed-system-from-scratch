@@ -1,0 +1,4 @@
+- `node.disk.version ?? 1` is `n.Disk().Get("version", &version)` inside `n.OnStart`; `node.disk.users` is `n.Disk().Set("users", users)`, durable once it returns.
+- `n.OnStart` runs before the node answers `init`: start a startup handshake in a goroutine rather than calling `n.Call` there directly.
+- The client's `msg_id` is in the body (`MsgID int64 \`json:"msg_id"\``) and its id is `msg.Src`. Answer for the home with `n.Send(ctx, client, map[string]any{"type": "get_ok", "name": name, "in_reply_to": replyTo})`.
+- The set of peers known to run version 2 is shared by concurrent handlers: guard it with a mutex.

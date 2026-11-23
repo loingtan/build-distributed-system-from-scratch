@@ -1,0 +1,3 @@
+- Keep all Raft state in one struct behind one `sync.Mutex`, and call every helper with it held. Ask for votes from a goroutine (`go r.requestVote(…)`): never hold the mutex across `n.Call`.
+- `Timer.Stop` cannot recall a callback that has already fired and is waiting for the mutex. Bump a generation counter on every reset and have the callback do nothing if the counter moved on.
+- `leader` may be `null` in `status_ok`: keep it as `""` in Go and send `nil` when it is empty.

@@ -1,0 +1,3 @@
+- `node.every(100, …)` is `n.Every(100*time.Millisecond, …)`, started inside `n.OnStart`.
+- `node.now()` is `n.Elapsed()`: store a `time.Duration` per peer and compare `n.Elapsed()-lastHeard[peer] > threshold`.
+- The heartbeat and status handlers run concurrently: guard `lastHeard` with a `sync.Mutex`.

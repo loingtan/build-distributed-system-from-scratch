@@ -1,0 +1,2 @@
+- Handlers run concurrently, so "check `inFlight < 4`, then increment" must happen under one `sync.Mutex`; otherwise five requests can each see a free slot.
+- Release the slot after `n.Call` returns, whatever it returned (reply, error or `ErrTimeout`), and don't hold the mutex across the call. (A buffered channel of size 4 with a non-blocking send also works as the slot counter.)
